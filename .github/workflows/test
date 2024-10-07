@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'  # Ustaw wersję Node.js, której potrzebujesz
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test  # Upewnij się, że masz odpowiednią komendę testującą
+
+      - name: Build project
+        run: npm run build  # Upewnij się, że masz odpowiednią komendę budującą
+
+      - name: Deploy
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "Deploying to production..."
+          # Tutaj dodaj komendy do wdrożenia, np. na serwerze lub do usługi chmurowej
